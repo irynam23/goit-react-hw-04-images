@@ -15,21 +15,6 @@ export const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const getQuery = value => {
-    if (!value.trim() || value === query) {
-      setError('Please, change your request');
-      return;
-    }
-    setImages([]);
-    setTotalImages(0);
-    setPage(1);
-    setQuery(value);
-  };
-
-  const loadMore = () => {
-    setPage(prev => prev + 1);
-  };
-
   useEffect(() => {
     if (!error) return;
     toast.error(error);
@@ -58,6 +43,21 @@ export const App = () => {
       }
     })();
   }, [page, query]);
+
+  const getQuery = value => {
+    if (!value.trim() || value === query) {
+      setError('Please, change your request');
+      return;
+    }
+    setImages([]);
+    setTotalImages(0);
+    setPage(1);
+    setQuery(value);
+  };
+
+  const loadMore = () => {
+    setPage(prev => prev + 1);
+  };
 
   return (
     <div>
