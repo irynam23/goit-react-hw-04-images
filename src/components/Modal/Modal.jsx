@@ -2,26 +2,28 @@ import { useEffect } from 'react';
 import css from './Modal.module.css';
 import PropTypes from 'prop-types';
 
-export const Modal = ({ largeImageURL, setIsOpen }) => {
+export const Modal = ({ largeImageURL, toggleModal }) => {
   useEffect(() => {
     const handleEscape = e => {
       if (e.code !== 'Escape') {
         return;
       }
-      setIsOpen(false);
+      toggleModal();
     };
     window.addEventListener('keydown', handleEscape);
     return () => {
       window.removeEventListener('keydown', handleEscape);
     };
-  }, [setIsOpen]);
+  }, [toggleModal]);
 
+  const handleBackdropClick = e => {
+    if (e.target !== e.currentTarget) return;
+    toggleModal();
+  };
   return (
-    <div onClick={() => setIsOpen(false)}>
-      <div className={css.Overlay}>
-        <div className={css.Modal}>
-          <img src={largeImageURL} alt="" />
-        </div>
+    <div className={css.Overlay} onClick={handleBackdropClick}>
+      <div className={css.Modal}>
+        <img src={largeImageURL} alt="" />
       </div>
     </div>
   );
@@ -29,5 +31,5 @@ export const Modal = ({ largeImageURL, setIsOpen }) => {
 
 Modal.propTypes = {
   largeImageURL: PropTypes.string.isRequired,
-  setIsOpen: PropTypes.func.isRequired,
+  toggleModal: PropTypes.func.isRequired,
 };
